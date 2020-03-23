@@ -1,6 +1,6 @@
 let imageBin = [];
 
-const preloadImages = function(images, path = false) {
+const preloadImages = function(images, callback, value = 0) {
   //----------------------------------------------------//
   //Preloads images before they are needed              //
   //array-> images[]: an array containing strings that  //
@@ -18,12 +18,11 @@ const preloadImages = function(images, path = false) {
 
   for (let i = 0; i < imgLength; i++) {
     imageBin.push(new Image());// = new Image();
-    if (path) {
-      img = path + images[i];
-    } else {
-      img = images[i];
-    }
-    imageBin[imageBin.length - 1].src = img;
+    imageBin[imageBin.length - 1].src = images[i];
+  }
+  
+  imageBin[imageBin.length - 1].onload = function () {
+    callback(value);
   }
 }
 
@@ -232,9 +231,8 @@ function shadyFit() {
               imgs.push(exercises[i].src + item);
             });
           }
-          console.log(imgs);
-          preloadImages(imgs);
-          startWorkout(totalSets);
+          preloadImages(imgs, startWorkout, totalSets);
+          //startWorkout(totalSets);
         });
     }
   }
@@ -445,7 +443,6 @@ function shadyFit() {
         })
         .then(function(myJson) {
           let workoutList = Object.values(myJson);
-          console.log("showing Workouts");
           showWorkouts(workoutList);
         });
     }
