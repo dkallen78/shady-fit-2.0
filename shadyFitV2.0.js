@@ -1,3 +1,32 @@
+let imageBin = [];
+
+const preloadImages = function(images, path = false) {
+  //----------------------------------------------------//
+  //Preloads images before they are needed              //
+  //array-> images[]: an array containing strings that  //
+  //are the paths to the images to be loaded            //
+  //----------------------------------------------------//
+
+  if (images[0] != "") {
+    imageBin = [];
+  } else {
+    images.shift();
+  }
+
+  let imgLength = images.length;
+  let img = null;
+
+  for (let i = 0; i < imgLength; i++) {
+    imageBin.push(new Image());// = new Image();
+    if (path) {
+      img = path + images[i];
+    } else {
+      img = images[i];
+    }
+    imageBin[imageBin.length - 1].src = img;
+  }
+}
+
 function clearElement() {
   //----------------------------------------------------//
   //Clears the innerHTML of an element or elements      //
@@ -169,7 +198,6 @@ function shadyFit() {
       let next = makeDiv("next", "buttons");
         next.textContent = "Next";
         next.onclick = function() {
-          //workoutIndex++
           workoutIndex = (workoutIndex === workoutList.length - 1) ? 0 : (workoutIndex + 1);
           showWorkout(workoutIndex % workoutList.length);
         }
@@ -188,6 +216,8 @@ function shadyFit() {
 
     startButton.textContent = "Start Workout";
     startButton.onclick = function() {
+
+
       fetch(workoutList[workoutIndex].src)
         .then(function(response) {
           return response.json();
@@ -196,6 +226,14 @@ function shadyFit() {
           let exerciseSet = myJson;
           exercises = Object.values(exerciseSet);
           let totalSets = exercises.shift();
+          let imgs = [];
+          for (let i = 0; i < exercises.length; i++) {
+            exercises[i].images.forEach(function(item) {
+              imgs.push(exercises[i].src + item);
+            });
+          }
+          console.log(imgs);
+          preloadImages(imgs);
           startWorkout(totalSets);
         });
     }
@@ -379,6 +417,7 @@ function shadyFit() {
   //Makes the window that shows the workout information
   const workoutWindow = makeDiv("workoutWindow");
   document.body.appendChild(workoutWindow);
+
   //
   //My logo
   let logoDiv = makeDiv("logoDiv");
@@ -412,16 +451,3 @@ function shadyFit() {
     }
   });
 }
-
-/*fetch("workoutList.json")
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(myJson) {
-    let exerciseSet = myJson;
-    console.log(exerciseSet);
-    exercises = Object.values(exerciseSet);
-    console.log(exercises);
-    let totalSets = exercises.shift();
-    startWorkout(totalSets);
-  });*/
