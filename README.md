@@ -1,4 +1,4 @@
-# Shady Fit 2.0
+# [Shady Fit 2.0](https://dkallen78.github.io/shady-fit-2.0/shadyFitV2.0.html)
 
 The next version of the Shady Fit program
 
