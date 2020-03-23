@@ -1,0 +1,41 @@
+{
+  "workout1": {
+    "name": "Quick Cardio",
+    "src": "workout1.json",
+    "names": [
+      "Jumping Jacks", "Squats", "Push-ups", "High Knees", "Climbers", "Plank Jump-ins"
+    ],
+    "counts": [10, 5, 5, 10, 10, 5],
+    "sets": 3
+  },
+
+  "workout2": {
+    "name": "Shoulders and Core",
+    "src": "workout2.json",
+    "names": [
+      "Shoulder Taps", "Climbers", "Shoulder Taps", "Climbers", "Punches", "Climbers"
+    ],
+    "counts": [20, 20, 20, 20, 20, 20],
+    "sets": 3
+  },
+
+  "workout3": {
+    "name": "Test Workout 1",
+    "src": "workout2.json",
+    "names": [
+      "Taps", "Clmbrs", "Shoulder", "imbers", "ches", "Clim"
+    ],
+    "counts": [1, 2, 3, 4, 5, 6],
+    "sets": 3
+  },
+
+  "workout4": {
+    "name": "Test Workout 2",
+    "src": "workout1.json",
+    "names": [
+      "Jacks", "uats", "Push", "High", "bers", "Jump-ins"
+    ],
+    "counts": [10, 5, 5, 10, 10, 5],
+    "sets": 3
+  }
+}

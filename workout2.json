@@ -1,0 +1,40 @@
+{
+  "sets": 3,
+
+  "shoulderTaps": {
+    "name": "Shoulder Taps",
+    "count": 20,
+    "src": "./exercises/shoulderTapsF/",
+    "images": ["shoulderTapsF1.png", "shoulderTapsF2.png"]
+  },
+  "climbers": {
+    "name": "Climbers",
+    "count": 20,
+    "src": "./exercises/climbersF/",
+    "images": ["climbersF1.png", "climbersF2.png", "climbersF1.png", "climbersF3.png"]
+  },
+  "shoulderTaps2": {
+    "name": "Shoulder Taps",
+    "count": 20,
+    "src": "./exercises/shoulderTapsF/",
+    "images": ["shoulderTapsF1.png", "shoulderTapsF2.png"]
+  },
+  "climbers2": {
+    "name": "Climbers",
+    "count": 20,
+    "src": "./exercises/climbersF/",
+    "images": ["climbersF1.png", "climbersF2.png", "climbersF1.png", "climbersF3.png"]
+  },
+  "punches": {
+    "name": "Punches",
+    "count": 20,
+    "src": "./exercises/punchesF/",
+    "images": ["punchesF1.png", "punchesF2.png"]
+  },
+  "climbers3": {
+    "name": "Climbers",
+    "count": 20,
+    "src": "./exercises/climbersF/",
+    "images": ["climbersF1.png", "climbersF2.png", "climbersF1.png", "climbersF3.png"]
+  }
+}
