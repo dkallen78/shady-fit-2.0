@@ -1,6 +1,6 @@
 let imageBin = [];
 
-const preloadImages = function(images, callback, value = 0) {
+const preloadImages = function(images, callback = false, value = 0) {
   //----------------------------------------------------//
   //Preloads images before they are needed              //
   //array-> images[]: an array containing strings that  //
@@ -20,13 +20,15 @@ const preloadImages = function(images, callback, value = 0) {
     imageBin.push(new Image());// = new Image();
     imageBin[imageBin.length - 1].src = images[i];
   }
-  
-  imageBin[imageBin.length - 1].onload = function () {
-    callback(value);
+
+  if (callback) {
+    imageBin[imageBin.length - 1].onload = function () {
+      callback(value);
+    }
   }
 }
 
-function clearElement() {
+const clearElement = function() {
   //----------------------------------------------------//
   //Clears the innerHTML of an element or elements      //
   //element-> arguments[n]: element to be cleared       //
@@ -37,7 +39,7 @@ function clearElement() {
   }
 }
 
-function insertTextNode(element, text) {
+const insertTextNode = function(element, text) {
   //----------------------------------------------------//
   //Inserts text into an element without erasing the    //
   //  previous text                                     //
@@ -49,7 +51,7 @@ function insertTextNode(element, text) {
   element.appendChild(node);
 }
 
-function makeDiv() {
+const makeDiv = function() {
   //----------------------------------------------------//
   //Makes a <div> element and assigns it an id and class//
   //string-> arguments[0]: id of the element            //
@@ -66,7 +68,7 @@ function makeDiv() {
   return div;
 }
 
-function makeImg(src) {
+const makeImg = function(src) {
   //----------------------------------------------------//
   //Makes an <img> element and gives it a path, id,     //
   //  and classes                                       //
@@ -88,7 +90,7 @@ function makeImg(src) {
   return img;
 }
 
-function makeButton(callback, text, id = "") {
+const makeButton = function(callback, text, id = "") {
   //----------------------------------------------------//
   //Makes a <button> element, assigns it an onclick     //
   //  function, a label, an id, and classes             //
@@ -112,7 +114,7 @@ function makeButton(callback, text, id = "") {
   return button;
 }
 
-function makeTime(ms) {
+const makeTime = function(ms) {
   //----------------------------------------------------//
   //Converts a millisecond value into a minutes, seconds//
   //  and milliseconds format                           //
@@ -126,14 +128,24 @@ function makeTime(ms) {
   return minutes + ":" + seconds + "<span id=\"milliseconds\">" + milliseconds + "</span>";
 }
 
-function shadyFit() {
+const shadyFit = function() {
   //----------------------------------------------------//
   //Sets up the initial screen for the user             //
   //----------------------------------------------------//
 
   const showWorkouts = function(workoutList) {
+    //----------------------------------------------------//
+    //Shows the available workouts and puts elements and  //
+    //  buttons on the screen                             //
+    //array-> workoutList: an array of exercise objects   //
+    //----------------------------------------------------//
 
     const showWorkout = function(index) {
+      //----------------------------------------------------//
+      //Shows the available workouts and changes them when  //
+      //the user presses/clicks a button                    //
+      //integer-> index: index of the object array to show  //
+      //----------------------------------------------------//
 
       let workoutName = document.getElementById("workoutName");
       if (!workoutName) {
@@ -171,29 +183,8 @@ function shadyFit() {
 
     clearElement(workoutWindow);
 
-    /*let workoutName = makeDiv("workoutName");
-      workoutName.textContent = workoutList[0].name;
-    workoutWindow.appendChild(workoutName);
-
-    let workoutOverview = makeDiv("workoutOverview");
-
-    for (let i = 0; i < workoutList[0].names.length; i++) {
-      let exSummary = makeDiv("", "workoutSummary");
-
-        let exNumber = makeDiv("", "summaryNumber");
-          exNumber.textContent = workoutList[0].counts[i];
-        exSummary.appendChild(exNumber);
-
-        let summaryExercise = makeDiv("", "summaryExercise");
-          summaryExercise.textContent = workoutList[0].names[i];
-        exSummary.appendChild(summaryExercise);
-
-      workoutOverview.appendChild(exSummary);
-    }
-    workoutWindow.appendChild(workoutOverview);*/
-    //showWorkout(workoutIndex);
-
     let buttons = makeDiv("buttons");
+
       let next = makeDiv("next", "buttons");
         next.textContent = "Next";
         next.onclick = function() {
@@ -201,6 +192,7 @@ function shadyFit() {
           showWorkout(workoutIndex % workoutList.length);
         }
     buttons.appendChild(next);
+
       let prev = makeDiv("prev", "buttons");
         prev.textContent = "Prev";
         prev.onclick = function() {
@@ -232,18 +224,28 @@ function shadyFit() {
             });
           }
           preloadImages(imgs, startWorkout, totalSets);
-          //startWorkout(totalSets);
         });
     }
   }
-  //
-  //Starts the workout logic
-  function startWorkout(totalSets) {
-    //
-    //Shows the individual exercise
-    function showExercise(data) {
+
+  const startWorkout = function(totalSets) {
+    //----------------------------------------------------//
+    //The wrapper function for the workout. Makes and     //
+    //  appends the elements for the other functions      //
+    //integer-> totalSets: how many rounds of exercise    //
+    //  in the workout.                                   //
+    //----------------------------------------------------//
+
+    const showExercise = function(data) {
+      //----------------------------------------------------//
+      //Handles the exercises of the workout. Puts data into//
+      //  the elements, and animates the images and timer   //
+      //object-> data: object that contains the information //
+      //  about the exercise                                //
+      //----------------------------------------------------//
 
       exerciseCount++;
+
       //
       //Change the text of the button based on context
       if (exerciseCount === 6 && sets === 3) {
@@ -287,10 +289,16 @@ function shadyFit() {
         timerDiv.innerHTML = makeTime(timeElapsed);
       }, 50);
     }
-    //
-    //The rest between exercise sets
-    function exerciseRest(time) {
+
+    const exerciseRest = function(time) {
+      //----------------------------------------------------//
+      //Makes the rest screen displayed between each set.   //
+      //integer-> time: how long the rest timer should be   //
+      //  in milliseconds (unimplemented)                   //
+      //----------------------------------------------------//
+
       exerciseCount = 0;
+
       //
       //Sets up the rest screen
       startButton.textContent = "Next Exercise";
@@ -315,10 +323,16 @@ function shadyFit() {
           timerDiv.innerHTML = makeTime(120000 - timeElapsed);
         }
       }, 50);
+
       sets++;
     }
 
-    function exerciseSummary() {
+    const exerciseSummary = function() {
+      //----------------------------------------------------//
+      //Makes the summary screen shown to the user after    //
+      //  they have completed all sets                      //
+      //----------------------------------------------------//
+
       let finalTime = new Date();
       clearElement(workoutWindow);
 
@@ -343,7 +357,6 @@ function shadyFit() {
         summaryDiv.appendChild(summary);
       }
 
-      console.log("text change next");
       startButton.textContent = "Again?";
       startButton.onclick = function() {
         clearElement(document.body);
@@ -351,8 +364,8 @@ function shadyFit() {
       }
 
       workoutWindow.appendChild(summaryDiv);
-
     }
+
     //
     //Shows the image preview of the exercise
     let exercisePreview = makeDiv("exercisePreview");
@@ -401,6 +414,7 @@ function shadyFit() {
         if (sets === totalSets) {
           exerciseSummary();
         } else {
+          preloadImages(["", "water.png"]);
           exerciseRest(120000);
         }
       }
@@ -411,6 +425,9 @@ function shadyFit() {
     let workoutStartTime = new Date();
     showExercise(exercises[0]);
   }
+
+  let exercises = null;
+
   //
   //Makes the window that shows the workout information
   const workoutWindow = makeDiv("workoutWindow");
@@ -424,13 +441,14 @@ function shadyFit() {
   setTimeout(function() {
     logoDiv.style.filter = "opacity(100%)";
   }, 10);
+
   //
   //The "Start Workout" button that's just outside
   //the workoutWindow
   let startButton = makeDiv("startButton");
-  startButton.textContent = "Choose Workout";
-  let exercises = null;
+    startButton.textContent = "Choose Workout";
   document.body.appendChild(startButton);
+
   //
   //Shows the startButton after the logo is done showing
   logoDiv.addEventListener("transitionend", function(event) {
@@ -448,3 +466,26 @@ function shadyFit() {
     }
   });
 }
+
+//--------------------------------------------------------//
+//Exercise Object:                                        //
+//  "exerciseName": {                                     //
+//    "name": "Exercise Name",                            //
+//    "count": ##,                                        //
+//    "src": "./directory/path/",                         //
+//    "images": ["fileToUse1.png", "fileToUse2.png", ...] //
+//  },                                                    //
+//--------------------------------------------------------//
+
+//--------------------------------------------------------//
+//Workout Object:                                         //
+//  "workoutName": {                                      //
+//    "name": "Workout Name",                             //
+//    "src": "directory/file.json",                       //
+//    "names": [                                          //
+//      "Exercise Name", "Exercise Name", ...             //
+//    ],                                                  //
+//    "counts": [10, 5, 5, 10, 10, 5],                    //
+//    "sets": 3                                           //
+//  },                                                    //
+//--------------------------------------------------------//
