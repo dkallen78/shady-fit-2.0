@@ -1,5 +1,5 @@
 {
-  "workout1": {
+  "quickCardio": {
     "name": "Quick Cardio",
     "src": "workout1.json",
     "names": [
@@ -9,7 +9,7 @@
     "sets": 3
   },
 
-  "workout2": {
+  "shouldersCore": {
     "name": "Shoulders and Core",
     "src": "workout2.json",
     "names": [
@@ -21,11 +21,11 @@
 
   "workout3": {
     "name": "Test Workout 1",
-    "src": "workout2.json",
+    "src": "workout3.json",
     "names": [
-      "Taps", "Clmbrs", "Shoulder", "imbers", "ches", "Clim"
+      "Plank", "Jumping Jacks", "Squats", "High Knees", "Climbers", "Plank Jump-ins"
     ],
-    "counts": [1, 2, 3, 4, 5, 6],
+    "counts": [10, 10, 5, 10, 10, 5],
     "sets": 3
   },
 

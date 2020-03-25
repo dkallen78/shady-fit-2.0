@@ -1,0 +1,39 @@
+{
+  "sets": 3,
+  "pushUps": {
+    "name": "Plank",
+    "count": "10 sec.",
+    "src": "./exercises/pushUpsM/",
+    "images": ["pushUpsM1.png"]
+  },
+  "jumpingJacks": {
+    "name": "Jumping Jacks",
+    "count": 10,
+    "src": "./exercises/jumpingJacksM/",
+    "images": ["jumpingJacksM1.png", "jumpingJacksM2.png"]
+  },
+  "squats": {
+    "name": "Squats",
+    "count": 5,
+    "src": "./exercises/squatsM/",
+    "images": ["squatsM1.png", "squatsM2.png"]
+  },
+  "highKnees": {
+    "name": "High Knees",
+    "count": 10,
+    "src": "./exercises/highKneesM/",
+    "images": ["highKneesM1.png", "highKneesM2.png"]
+  },
+  "climbers": {
+    "name": "Climbers",
+    "count": 10,
+    "src": "./exercises/climbersM/",
+    "images": ["climbersM1.png", "climbersM2.png", "climbersM1.png", "climbersM4.png"]
+  },
+  "plankJumpIns": {
+    "name": "Plank Jump-ins",
+    "count": 5,
+    "src": "./exercises/plankJumpInsM/",
+    "images": ["plankJumpInsM1.png", "plankJumpInsM2.png"]
+  }
+}

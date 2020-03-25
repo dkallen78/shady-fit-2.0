@@ -17,7 +17,7 @@ const preloadImages = function(images, callback = false, value = 0) {
   let img = null;
 
   for (let i = 0; i < imgLength; i++) {
-    imageBin.push(new Image());// = new Image();
+    imageBin.push(new Image());
     imageBin[imageBin.length - 1].src = images[i];
   }
 
@@ -36,6 +36,20 @@ const clearElement = function() {
 
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].innerHTML = "";
+  }
+}
+
+const removeElement = function() {
+  //----------------------------------------------------//
+  //Removes any number of elements passed in as         //
+  //  arguments from their parent element               //
+  //string-> arguments[0+]: id of the elements          //
+  //  to be removed                                     //
+  //----------------------------------------------------//
+
+  for (let i = 0; i < arguments.length; i++) {
+    let element = document.getElementById(arguments[i]);
+    element.parentNode.removeChild(element);
   }
 }
 
@@ -123,9 +137,10 @@ const makeTime = function(ms) {
 
   let minutes = Math.floor(ms / 60000);
   let seconds = Math.floor(ms / 1000) % 60;
-  seconds = (seconds > 9) ? "" + seconds : "0" + seconds;
+  seconds = (seconds > 9) ? `${seconds}` : `0${seconds}`;
   let milliseconds = (ms % 100).toFixed(0, 10);
-  return minutes + ":" + seconds + "<span id=\"milliseconds\">" + milliseconds + "</span>";
+
+  return `${minutes}:${seconds}<span id="milliseconds">${milliseconds}</span>`;
 }
 
 const shadyFit = function() {
@@ -208,7 +223,6 @@ const shadyFit = function() {
     startButton.textContent = "Start Workout";
     startButton.onclick = function() {
 
-
       fetch(workoutList[workoutIndex].src)
         .then(function(response) {
           return response.json();
@@ -217,13 +231,14 @@ const shadyFit = function() {
           let exerciseSet = myJson;
           exercises = Object.values(exerciseSet);
           let totalSets = exercises.shift();
-          let imgs = [];
+          /*let imgs = [];
           for (let i = 0; i < exercises.length; i++) {
             exercises[i].images.forEach(function(item) {
               imgs.push(exercises[i].src + item);
             });
           }
-          preloadImages(imgs, startWorkout, totalSets);
+          preloadImages(imgs, startWorkout, totalSets);*/
+          startWorkout(totalSets);
         });
     }
   }
@@ -258,7 +273,7 @@ const shadyFit = function() {
 
       //
       //Uses the data to fill the workoutWindow
-      setCountBox.style.filter = "opacity(100%)";
+      //setCountBox.style.filter = "opacity(100%)";
       setCount.textContent = `${sets} / ${totalSets}`;
       exerciseImg.src = data.src + data.images[0];
       exerciseNumber.textContent = data.count;
@@ -271,7 +286,7 @@ const shadyFit = function() {
       workoutWindow.appendChild(timerDiv);
 
       //
-      //Cycles between the workout preview images
+      //Cycles between the exercise images
       //  every half second
       let imgCount = 0;
       clearInterval(exImg);
@@ -366,6 +381,78 @@ const shadyFit = function() {
       workoutWindow.appendChild(summaryDiv);
     }
 
+    const countDown = function(callback, text = false) {
+      //----------------------------------------------------//
+      //Flashes a "3, 2, 1" countdown on the screen, then   //
+      //  runs a callback function                          //
+      //function-> callback: function to call at the end of //
+      //  the countdown                                     //
+      //string-> text: text to display during the countdown //
+      //----------------------------------------------------//
+
+      const fadeNumber = function(element) {
+        //----------------------------------------------------//
+        //Transitions of the number element                   //
+        //----------------------------------------------------//
+
+        element.style.filter = "opacity(0%)";
+        element.style.fontSize = "0rem";
+        element.style.height = "0rem";
+        element.style.padding = "0rem";
+      }
+
+      startButton.style.display = "none";
+
+      preloadImages(exercises[exerciseCount].images);
+      exerciseImg.src = exercises[exerciseCount].src + exercises[exerciseCount].images[0];
+
+      clearElement(workoutWindow);
+      clearInterval(timer);
+
+      if (text) {
+        let nextExercise = makeDiv("nextExercise");
+          nextExercise.textContent = text;
+        workoutWindow.appendChild(nextExercise);
+      }
+
+      let three = makeDiv("three", "countDown");
+        three.textContent = "3";
+        /*three.onclick = function() {
+          three.style.filter = "opacity(0%)";
+          three.style.fontSize = "0rem";
+        }*/
+      workoutWindow.appendChild(three);
+      setTimeout(function() {
+        fadeNumber(three);
+      }, 20);
+
+      setTimeout(function() {
+        removeElement("three");
+        let two = makeDiv("two", "countDown");
+          two.textContent = "2";
+        workoutWindow.appendChild(two);
+        setTimeout(function() {
+          fadeNumber(two);
+        }, 20);
+      }, 1200);
+
+      setTimeout(function() {
+        removeElement("two");
+        let one = makeDiv("one", "countDown");
+          one.textContent = "1";
+        workoutWindow.appendChild(one);
+        setTimeout(function() {
+          fadeNumber(one);
+        }, 20);
+      }, 2400);
+
+      setTimeout(function() {
+        clearElement(workoutWindow);
+        startButton.style.display = "table";
+        callback();
+      }, 3400);
+    }
+
     //
     //Shows the image preview of the exercise
     let exercisePreview = makeDiv("exercisePreview");
@@ -409,7 +496,9 @@ const shadyFit = function() {
     startButton.textContent = "Next Exercise";
     startButton.onclick = function() {
       if (exerciseCount <= exercises.length - 1) {
-        showExercise(exercises[exerciseCount]);
+        countDown(function() {
+          showExercise(exercises[exerciseCount]);
+        }, exercises[exerciseCount].name);
       } else {
         if (sets === totalSets) {
           exerciseSummary();
@@ -422,8 +511,13 @@ const shadyFit = function() {
 
     //
     //Starts the timer and shows the exercise
-    let workoutStartTime = new Date();
-    showExercise(exercises[0]);
+    let workoutStartTime = null;
+
+
+    countDown(function() {
+      workoutStartTime = new Date();
+      showExercise(exercises[0]);
+    }, exercises[0].name);
   }
 
   let exercises = null;
