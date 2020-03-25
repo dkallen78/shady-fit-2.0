@@ -2,6 +2,12 @@
 
 The next version of the Shady Fit program
 
+## 2020.03.24
+
+I put in a "3, 2, 1" countdown before the exercises to give the users time to switch. I like it. I also moved the image preloader to this countdown screen to take advantage of the time window it opened. I might be able to play with the JSON a bit to get access to the first image faster but I'm pretty happy with what I've got. 
+
+I've asked around a little bit for connections to illustrators but so far no luck. Tomorrow I'm going to reach out directly to the people I borrowed the images from.
+
 ## 2020.03.23
 
 #### First Notes
